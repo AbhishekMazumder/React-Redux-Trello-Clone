@@ -5,6 +5,7 @@ const initialState = [
 		cards: [
 			{ id: 0, text: 'create a static list & Static card' },
 			{ id: 1, text: 'use materialUI to render list & card' },
+			{ id: 2, text: 'use Styled Components' },
 		],
 	},
 	{
@@ -17,15 +18,11 @@ const initialState = [
 	},
 ];
 
-const listReducer=(state= initialState, action)=>{
-  switch (action.type) {
-    
-      
-      
-  
-    default:
-      return state
-  }
-}
+const listReducer = (state = initialState, action) => {
+	switch (action.type) {
+		default:
+			return state;
+	}
+};
 
 export default listReducer;
