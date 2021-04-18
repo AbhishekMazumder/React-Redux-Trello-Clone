@@ -4,6 +4,8 @@ import Card from '@material-ui/core/Card';
 import Textarea from 'react-textarea-autosize';
 import { Button } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
+import { connect } from 'react-redux';
+import { addList, addCard } from '../actions';
 
 class TrelloActionBtn extends Component {
 	state = {
@@ -27,6 +29,27 @@ class TrelloActionBtn extends Component {
 		this.setState({
 			text: e.target.value,
 		});
+	};
+
+	// adding new list
+	handleAddList = () => {
+		const { dispatch } = this.props;
+		const { text } = this.state;
+		if (text) {
+			dispatch(addList(text));
+		}
+		this.setState({ text: '' });
+		return;
+	};
+
+	// adding new card to the list
+	handleAddCard = () => {
+		const { dispatch, listID } = this.props;
+		const { text } = this.state;
+		if (text) {
+			dispatch(addCard(listID, text));
+		}
+		this.setState({ text: '' });
 	};
 
 	renderAddButton = () => {
@@ -83,6 +106,7 @@ class TrelloActionBtn extends Component {
 				</Card>
 				<div style={styles.formBtnGrp}>
 					<Button
+						onMouseDown={list ? this.handleAddList : this.handleAddCard}
 						variant="contained"
 						style={{ color: 'white', backgroundColor: '#5aac44' }}
 					>
@@ -116,4 +140,4 @@ const styles = {
 	},
 };
 
-export default TrelloActionBtn;
+export default connect()(TrelloActionBtn);
