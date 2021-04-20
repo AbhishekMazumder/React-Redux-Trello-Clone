@@ -4,6 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Draggable } from 'react-beautiful-dnd';
+import styled from 'styled-components'
+
+const CardContainer = styled.div`
+	margin-bottom: 8px;
+`;
 
 const TrelloCard = ({ text, id, index }) => {
 	// calling custom styles
@@ -12,7 +17,11 @@ const TrelloCard = ({ text, id, index }) => {
 	return (
 		<Draggable draggableId={String(id)} index={index}>
 			{provided => (
-				<div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+				<CardContainer
+					ref={provided.innerRef}
+					{...provided.draggableProps}
+					{...provided.dragHandleProps}
+				>
 					<Card className={classes.cardItem}>
 						<CardContent>
 							<Typography color="textSecondary" gutterBottom>
@@ -20,7 +29,7 @@ const TrelloCard = ({ text, id, index }) => {
 							</Typography>
 						</CardContent>
 					</Card>
-				</div>
+				</CardContainer>
 			)}
 		</Draggable>
 	);

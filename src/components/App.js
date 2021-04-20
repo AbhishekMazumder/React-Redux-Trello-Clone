@@ -1,15 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {DragDropContext} from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
+import styled from 'styled-components';
 
 import TrelloList from './TrelloList';
-import TrelloActionBtn from './TrelloActionBtn'
+import TrelloActionBtn from './TrelloActionBtn';
+import { sort } from '../actions';
+
+
+
+
+const AppContainer = styled.div`
+	display: flex;
+`;
 
 class App extends Component {
-
-	onDragEnd = () =>{
+	onDragEnd = result => {
 		// TODO: reordering logic
-	}
+		const { destination, source, draggableId } = result;
+		if (!destination) {
+			return;
+		}
+		this.props.dispatch(
+			sort(
+				source.droppableId,
+				destination.droppableId,
+				source.index,
+				destination.index,
+				draggableId
+			)
+		);
+	};
 
 	render() {
 		const { lists } = this.props;
@@ -17,7 +38,7 @@ class App extends Component {
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<div className="App">
 					<h2>Trello Clone</h2>
-					<div style={styles.listContainer}>
+					<AppContainer>
 						{lists.map(list => (
 							<TrelloList
 								listID={list.id}
@@ -27,18 +48,12 @@ class App extends Component {
 							/>
 						))}
 						<TrelloActionBtn list />
-					</div>
+					</AppContainer>
 				</div>
 			</DragDropContext>
 		);
 	}
 }
-
-const styles = {
-	listContainer: {
-		display: 'flex',
-	},
-};
 
 const mapStateToProps = state => {
 	return {
