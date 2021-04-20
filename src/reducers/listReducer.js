@@ -1,24 +1,24 @@
 import { CONSTANTS } from '../actions';
 
 let listID = 2;
-let cardID = 3;
+let cardID = 5;
 
 const initialState = [
 	{
 		title: 'ToDo',
-		id: 0,
+		id: `list-${0}`,
 		cards: [
-			{ id: 0, text: 'create a static list & Static card' },
-			{ id: 1, text: 'use materialUI to render list & card' },
-			{ id: 2, text: 'use Styled Components' },
+			{ id: `card-${0}`, text: 'create a static list & Static card' },
+			{ id: `card-${1}`, text: 'use materialUI to render list & card' },
+			{ id: `card-${2}`, text: 'use Styled Components' },
 		],
 	},
 	{
 		title: 'In Progress',
-		id: 1,
+		id: `list-${1}`,
 		cards: [
-			{ id: 0, text: 'React Firebase Crud' },
-			{ id: 1, text: 'use semanticUI to build contactlist' },
+			{ id: `card-${3}`, text: 'React Firebase Crud' },
+			{ id: `card-${4}`, text: 'use semanticUI to build contactlist' },
 		],
 	},
 ];
@@ -29,7 +29,7 @@ const listReducer = (state = initialState, action) => {
 			const newList = {
 				title: action.payload,
 				cards: [],
-				id: listID,
+				id: `list-${listID}`,
 			};
 			listID += 1;
 			return [...state, newList];
@@ -37,7 +37,7 @@ const listReducer = (state = initialState, action) => {
 		case CONSTANTS.ADD_CARD:
 			const newCard = {
 				text: action.payload.text,
-				id: cardID,
+				id: `card-${cardID}`,
 			};
 			cardID += 1;
 			const newState = state.map(list => {
