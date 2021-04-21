@@ -52,7 +52,7 @@ const listReducer = (state = initialState, action) => {
 			});
 			return newState;
 		}
-		
+
 		case CONSTANTS.DRAG_HAPPENED:
 			const {
 				droppableIdStart,
@@ -63,12 +63,28 @@ const listReducer = (state = initialState, action) => {
 			} = action.payload;
 			const newState = [...state];
 
-			// in the same list group
+			// dragging in the same list group
 			if (droppableIdStart === droppableIdEnd) {
 				const list = state.find(list => droppableIdStart === list.id);
 				const card = list.cards.splice(droppableIndexStart, 1);
 				list.cards.splice(droppableIndexEnd, 0, ...card);
 			}
+
+			// drag & drop to the other list group
+			if (droppableIdStart !== droppableIdEnd) {
+				// find the list where the drag happened
+				const listStart = state.find(list => droppableIdStart === list.id);
+
+				// pull othe the item/card from the list
+				const card = listStart.cards.splice(droppableIndexStart, 1);
+
+				// find the list where drag ended
+				const listEnd = state.find(list => droppableIdEnd === list.id);
+
+				// put/drop the card in the new list
+				listEnd.cards.splice(droppableIndexEnd, 0, ...card);
+			}
+
 			return newState;
 
 		default:
